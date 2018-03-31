@@ -1,0 +1,13 @@
+.Dice {
+  height: 50px;
+  width: 50px;
+  border: 1px solid black;
+  border-radius: 0.75em;
+  display: inline-block;
+  margin: 1em;
+  /* display: flex; */
+}
+
+.Dice:hover {
+  background-color: lightblue;
+}
