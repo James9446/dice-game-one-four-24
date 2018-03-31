@@ -16,7 +16,7 @@ class App extends Component {
     };
   }
   componentWillMount() {
-    this.setState({dicePool: 6 - this.state.saved.length});
+    this.setState({ dicePool: 6 });
   }
   componentDidMount() {
     this.takeTurn();
@@ -44,12 +44,12 @@ class App extends Component {
   };
 
   selectDice = (selection) => {
-    console.log(selection);
-    let selected = this.state.toBeSaved.slice(0);
-    selected.push(selection);
+    let currentToBeSaved = this.state.toBeSaved.slice(0);
+    currentToBeSaved.push(selection);
 
     let currentDiceInPlay = this.state.inPlay.slice(0);
     let spliced = false;
+
     for (let i = 0; i < currentDiceInPlay.length; i++) {
       if (selection === currentDiceInPlay[i] && !spliced) {
         currentDiceInPlay.splice(i, 1);
@@ -58,21 +58,61 @@ class App extends Component {
     }
 
     this.setState({
-      toBeSaved: selected,
+      toBeSaved: currentToBeSaved,
       inPlay: currentDiceInPlay,
-      dicePool: 6 - (selected.length + this.state.saved.length)
+      dicePool: 6 - (currentToBeSaved.length + this.state.saved.length)
+    });
+  };
+
+  undoSelection = (selection) => {
+    let currentDiceInPlay = this.state.inPlay.slice(0);
+    currentDiceInPlay.push(selection);
+
+    let currentToBeSaved = this.state.toBeSaved.slice(0);
+    let spliced = false;
+
+    for (let i = 0; i < currentToBeSaved.length; i++) {
+      if (selection === currentToBeSaved[i] && !spliced) {
+        currentToBeSaved.splice(i, 1);
+        spliced = true;
+      }
+    }
+
+    this.setState({
+      toBeSaved: currentToBeSaved,
+      inPlay: currentDiceInPlay,
+      dicePool: 6 - (currentToBeSaved.length + this.state.saved.length)
     });
   };
 
   render() {
-    return (
-      <div className="App">
-        <button onClick={this.takeTurn}>Roll</button>
-        <Saved saved={this.state.saved} />
-        <ToBeSaved toBeSaved={this.state.toBeSaved} />
-        <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
-      </div>
-    );
+    if (this.state.toBeSaved.length + this.state.saved.length === 6) {
+      return (
+        <div className="App">
+          <Saved saved={this.state.saved} />
+          <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
+          <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
+          <button onClick={this.takeTurn}>Get final score</button>
+        </div>
+      );
+    } else if (!this.state.toBeSaved.length) {
+      return (
+        <div className="App">
+          <Saved saved={this.state.saved} />
+          <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
+          <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
+        </div>
+      );
+    } else {
+      return (
+        <div className="App">
+          <Saved saved={this.state.saved} />
+          <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
+          <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
+          <button onClick={this.takeTurn}>Roll</button>
+        </div>
+      );
+    }
   }
 }
 

@@ -6,7 +6,7 @@ const ToBeSaved = (props) => (
   <div className='ToBeSaved'>
     <h1> Dice To Be Saved </h1>
     {props.toBeSaved.map((dice, index) => {
-      return <Dice number={dice} key={index}/>
+      return <Dice number={dice} key={index} undo={props.undo.bind(null, dice)}/>
     })}
   </div>
 );
