@@ -16,11 +16,19 @@ class Dice extends Component {
           </div>
       );
     } else {
-      return (
-        <div className='Dice'>
-          <p> {this.props.number} </p>
-        </div>
-    );
+      if (this.props.qualifier === true) {
+        return (
+          <div className='Dice qualifier'>
+            <p> {this.props.number} </p>
+          </div>
+        );
+      } else {
+        return (
+          <div className='Dice'>
+            <p> {this.props.number} </p>
+          </div>
+        );
+      }
     }
   }
 } 

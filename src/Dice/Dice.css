@@ -11,3 +11,7 @@
 .Dice:hover {
   background-color: lightblue;
 }
+
+.qualifier {
+  background-color: yellow;
+}

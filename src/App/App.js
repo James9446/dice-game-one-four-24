@@ -30,17 +30,44 @@ class App extends Component {
   takeTurn = () => {
     if (this.state.toBeSaved.length || !this.state.inPlay.length) {
       let currentSaved = this.state.saved.slice(0);
-      let nowSaved = this.state.toBeSaved.slice(0);
+      let currentToBeSaved = this.state.toBeSaved.slice(0);
       let roll = [];
       for (let i = 0; i < this.state.dicePool; i++) {
         roll.push(this.diceRoll());
       }
+      currentSaved = this.sortSaved(currentSaved.concat(currentToBeSaved));
       this.setState({
         inPlay: roll,
         toBeSaved: [],
-        saved: currentSaved.concat(nowSaved)
+        saved: currentSaved
       });
     }
+  };
+
+  sortSaved = ( array ) => {
+    array = array.splice(0);
+    let hasOne = false;
+    let hasFour = false;
+
+    if (array.indexOf(1) > -1) {
+      hasOne = true;
+      array.splice(array.indexOf(1), 1)
+    }
+    if (array.indexOf(4) > -1) {
+      hasFour = true;
+      array.splice(array.indexOf(4), 1)
+    }
+    array.sort((a, b) => b - a);
+    if (hasFour) {
+      array.unshift(4);
+    }
+    if (hasOne) {
+      array.unshift(1);
+    }
+    if (hasOne && hasFour && !this.state.qualified) {
+      this.setState({ qualified: true });
+    }
+    return array;
   };
 
   selectDice = (selection) => {
@@ -98,7 +125,7 @@ class App extends Component {
     } else if (!this.state.toBeSaved.length) {
       return (
         <div className="App">
-          <Saved saved={this.state.saved} />
+        <Saved saved={this.state.saved} />
           <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
           <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
         </div>
@@ -106,7 +133,7 @@ class App extends Component {
     } else {
       return (
         <div className="App">
-          <Saved saved={this.state.saved} />
+        <Saved saved={this.state.saved} />
           <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
           <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
           <button onClick={this.takeTurn}>Roll</button>

@@ -6,7 +6,11 @@ const Saved = (props) => (
   <div className='Saved'>
     <h1> Dice saved </h1>
     {props.saved.map((dice, index) => {
-      return <Dice number={dice} key={index}/>
+      if ((dice === 1 || dice === 4) && (index === 0 || index === 1)) {
+        return <Dice number={dice} key={index} qualifier={true} />
+      } else {
+        return <Dice number={dice} key={index} qualifier={false} />
+      }
     })}
   </div>
 );
