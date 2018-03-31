@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import InPlay from '../InPlay/InPlay';
 import Saved from '../Saved/Saved';
+import ToBeSaved from '../ToBeSaved/ToBeSaved';
 import './App.css';
 
 class App extends Component {
@@ -9,6 +10,7 @@ class App extends Component {
     this.state = {
       dicePool: null,
       inPlay: [],
+      toBeSaved: [],
       saved: [],
       qualified: false
     };
@@ -26,16 +28,24 @@ class App extends Component {
   };
 
   takeTurn = () => {
-    let roll = [];
-    for (let i = 0; i < this.state.dicePool; i++) {
-      roll.push(this.diceRoll());
+    if (this.state.toBeSaved.length || !this.state.inPlay.length) {
+      let currentSaved = this.state.saved.slice(0);
+      let nowSaved = this.state.toBeSaved.slice(0);
+      let roll = [];
+      for (let i = 0; i < this.state.dicePool; i++) {
+        roll.push(this.diceRoll());
+      }
+      this.setState({
+        inPlay: roll,
+        toBeSaved: [],
+        saved: currentSaved.concat(nowSaved)
+      });
     }
-    this.setState({inPlay: roll});
   };
 
   selectDice = (selection) => {
     console.log(selection);
-    let selected = this.state.saved.slice(0);
+    let selected = this.state.toBeSaved.slice(0);
     selected.push(selection);
 
     let currentDiceInPlay = this.state.inPlay.slice(0);
@@ -48,9 +58,9 @@ class App extends Component {
     }
 
     this.setState({
-      saved: selected,
+      toBeSaved: selected,
       inPlay: currentDiceInPlay,
-      dicePool: 6 - selected.length
+      dicePool: 6 - (selected.length + this.state.saved.length)
     });
   };
 
@@ -59,6 +69,7 @@ class App extends Component {
       <div className="App">
         <button onClick={this.takeTurn}>Roll</button>
         <Saved saved={this.state.saved} />
+        <ToBeSaved toBeSaved={this.state.toBeSaved} />
         <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
       </div>
     );
