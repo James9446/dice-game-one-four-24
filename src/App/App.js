@@ -118,28 +118,75 @@ class App extends Component {
   };
 
   render() {
-    return (
-      <div>
-        <div className='App-nav'>
-
-        </div>
-        <div className='App-container'>
-          <div className="App">
-            <div className='App-saved-container'>
-              <Saved saved={this.state.saved} />
-            </div>
-            <div className='App-play-container'>
-              <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
-            </div>
-            <div className='App-btn-container'>
-              <button className='roll' onClick={this.rollDice}>Roll</button>
-              <button className='bank' onClick={this.bankDice}>Bank</button>
-              <p>{this.state.total}</p>
+    if (this.state.diceActive && this.state.selected.indexOf(true) === -1) {
+      return (
+        <div>
+          <div className='App-nav'>
+            {/* <p>{this.state.total}</p> */}
+          </div>
+          <div className='App-container'>
+            <div className="App">
+              <div className='App-saved-container'>
+                <Saved saved={this.state.saved} />
+              </div>
+              <div className='App-play-container'>
+                <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+              </div>
+              <div className='App-btn-container'>
+                {/* <button className='App-btn-inactive' onClick={this.rollDice}>Roll</button> */}
+                {/* <button className='App-btn-active' onClick={this.bankDice}>Bank</button> */}
+                
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else if (this.state.diceActive) {
+      return (
+        <div>
+          <div className='App-nav'>
+            {/* <p>{this.state.total}</p> */}
+          </div>
+          <div className='App-container'>
+            <div className="App">
+              <div className='App-saved-container'>
+                <Saved saved={this.state.saved} />
+              </div>
+              <div className='App-play-container'>
+                <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+              </div>
+              <div className='App-btn-container'>
+                {/* <button className='App-btn-inactive' onClick={this.rollDice}>Roll</button> */}
+                <button className='App-btn-bank' onClick={this.bankDice}>Bank</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <div className='App-nav'>
+            {/* <p>{this.state.total}</p> */}
+          </div>
+          <div className='App-container'>
+            <div className="App">
+              <div className='App-saved-container'>
+                <Saved saved={this.state.saved} />
+              </div>
+              <div className='App-play-container'>
+                <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+              </div>
+              <div className='App-btn-container'>
+                <button className='App-btn-roll' onClick={this.rollDice}>Roll</button>
+                {/* <button className='App-btn-inactive' onClick={this.bankDice}>Bank</button> */}
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
 }
 
