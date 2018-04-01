@@ -10,9 +10,10 @@ class App extends Component {
     this.state = {
       dicePool: null,
       inPlay: [],
-      toBeSaved: [],
+      selected: [false, false, false, false, false, false],
       saved: [],
-      qualified: false
+      qualified: false,
+      total: null
     };
   }
   componentWillMount() {
@@ -28,17 +29,28 @@ class App extends Component {
   };
 
   takeTurn = () => {
-    if (this.state.toBeSaved.length || !this.state.inPlay.length) {
+    if (this.state.selected.indexOf(true) > -1 || !this.state.inPlay.length) {
       let currentSaved = this.state.saved.slice(0);
-      let currentToBeSaved = this.state.toBeSaved.slice(0);
+      let currentInPlay = this.state.inPlay.slice(0);
+      let currentSelected = this.state.selected.slice(0);
+      let currentDicePool = this.state.dicePool;
+      let temp = [];
+
+      currentInPlay.forEach((dice, index, collection) => {
+        if (currentSelected[index]) {
+          temp.push(dice);
+          currentDicePool--;
+        }
+      })
       let roll = [];
-      for (let i = 0; i < this.state.dicePool; i++) {
+      for (let i = 0; i < currentDicePool; i++) {
         roll.push(this.diceRoll());
       }
-      currentSaved = this.sortSaved(currentSaved.concat(currentToBeSaved));
+      currentSaved = this.sortSaved(currentSaved.concat(temp));
       this.setState({
         inPlay: roll,
-        toBeSaved: [],
+        selected: [false, false, false, false, false, false],
+        dicePool: currentDicePool,
         saved: currentSaved
       });
     }
@@ -57,6 +69,10 @@ class App extends Component {
       hasFour = true;
       array.splice(array.indexOf(4), 1)
     }
+    let total = 0;
+    for (let i = 0; i < array.length; i++) {
+      total += array[i];
+    }
     array.sort((a, b) => b - a);
     if (hasFour) {
       array.unshift(4);
@@ -67,79 +83,102 @@ class App extends Component {
     if (hasOne && hasFour && !this.state.qualified) {
       this.setState({ qualified: true });
     }
+    this.setState({ total: total })
     return array;
   };
 
   selectDice = (selection) => {
-    let currentToBeSaved = this.state.toBeSaved.slice(0);
-    currentToBeSaved.push(selection);
-
-    let currentDiceInPlay = this.state.inPlay.slice(0);
-    let spliced = false;
-
-    for (let i = 0; i < currentDiceInPlay.length; i++) {
-      if (selection === currentDiceInPlay[i] && !spliced) {
-        currentDiceInPlay.splice(i, 1);
-        spliced = true;
-      }
-    }
-
+    let currentSelected = this.state.selected.slice(0);
+    currentSelected[selection] = !currentSelected[selection];
     this.setState({
-      toBeSaved: currentToBeSaved,
-      inPlay: currentDiceInPlay,
-      dicePool: 6 - (currentToBeSaved.length + this.state.saved.length)
-    });
-  };
-
-  undoSelection = (selection) => {
-    let currentDiceInPlay = this.state.inPlay.slice(0);
-    currentDiceInPlay.push(selection);
-
-    let currentToBeSaved = this.state.toBeSaved.slice(0);
-    let spliced = false;
-
-    for (let i = 0; i < currentToBeSaved.length; i++) {
-      if (selection === currentToBeSaved[i] && !spliced) {
-        currentToBeSaved.splice(i, 1);
-        spliced = true;
-      }
-    }
-
-    this.setState({
-      toBeSaved: currentToBeSaved,
-      inPlay: currentDiceInPlay,
-      dicePool: 6 - (currentToBeSaved.length + this.state.saved.length)
+      selected: currentSelected
     });
   };
 
   render() {
-    if (this.state.toBeSaved.length + this.state.saved.length === 6) {
+    // if (this.state.saved.length === 6 || this.state.selected.indexOf(true) === -1) {
+    //   if (this.state.saved.length) {
       return (
-        <div className="App">
-          <Saved saved={this.state.saved} />
-          <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
-          <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
-          <button onClick={this.takeTurn}>Get final score</button>
+        <div>
+          <div className='App-nav'>
+
+          </div>
+          <div className='App-container'>
+            <div className="App">
+              <div className='App-saved-container'>
+                <Saved saved={this.state.saved} />
+              </div>
+              <div className='App-play-container'>
+                <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+              </div>
+              <button onClick={this.takeTurn}>Bank</button>
+              <p>{this.state.total}</p>
+            </div>
+          </div>
         </div>
       );
-    } else if (!this.state.toBeSaved.length) {
-      return (
-        <div className="App">
-        <Saved saved={this.state.saved} />
-          <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
-          <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
-        </div>
-      );
-    } else {
-      return (
-        <div className="App">
-        <Saved saved={this.state.saved} />
-          <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
-          <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
-          <button onClick={this.takeTurn}>Roll</button>
-        </div>
-      );
-    }
+    // } else {
+      // return (
+      //   <div>
+      //     <div className='App-nav'>
+
+      //     </div>
+      //     <div className='App-container'>
+      //       <div className="App">
+      //         <div className='App-saved-container'>
+
+      //         </div>
+      //         <div className='App-play-container'>
+      //           <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+      //         </div>
+      //         <button onClick={this.takeTurn}>Bank</button>
+      //         <p>{this.state.total}</p>
+      //       </div>
+      //     </div>
+      //   </div>
+      // );
+    // }
+    // } else if (this.state.saved.length === 5 || (this.state.selected.indexOf(false) > this.state.inPlay.length && this.state.selected.indexOf(false) !== -1)) {
+    //   return (
+    //     <div>
+    //       <div className='App-nav'>
+
+    //       </div>
+    //       <div className='App-container'>
+    //         <div className="App">
+    //           <div className='App-saved-container'>
+    //             <Saved saved={this.state.saved} />
+    //           </div>
+    //           <div className='App-play-container'>
+    //             <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+    //           </div>
+    //           <button onClick={this.takeTurn}>Bank</button>
+    //           <p>{this.state.total}</p>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   );
+    // } else {
+    //   return (
+    //     <div>
+    //       <div className='App-nav'>
+
+    //       </div>
+    //       <div className='App-container'>
+    //         <div className="App">
+    //           <div className='App-saved-container'>
+    //             <Saved saved={this.state.saved} />
+    //           </div>
+    //           <div className='App-play-container'>
+    //             <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+    //           </div>
+    //           <button onClick={this.takeTurn}>Bank & Roll</button>
+    //           <p>{this.state.total}</p>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   );
+    // }
   }
 }
 

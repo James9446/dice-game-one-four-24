@@ -4,11 +4,17 @@ import './Dice.css';
 
 class Dice extends Component {
   render() {
-    if (this.props.select) {
+    if (this.props.select && this.props.isSelected) {
       return (
-          <div className='Dice' onClick={this.props.select} >
+          <div className='selected' onClick={this.props.select} >
             <Dots number={this.props.number}/>
           </div>
+      );
+    } else if (this.props.select && !this.props.isSelected) {
+      return (
+        <div className='Dice' onClick={this.props.select} >
+          <Dots number={this.props.number}/>
+        </div>
       );
     } else if (this.props.undo) {
       return (
