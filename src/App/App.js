@@ -96,7 +96,8 @@ class App extends Component {
   };
 
   render() {
-    if (this.state.saved.length === 6) {
+    // if (this.state.saved.length === 6 || this.state.selected.indexOf(true) === -1) {
+    //   if (this.state.saved.length) {
       return (
         <div>
           <div className='App-nav'>
@@ -104,34 +105,80 @@ class App extends Component {
           </div>
           <div className='App-container'>
             <div className="App">
-              <Saved saved={this.state.saved} />
-              <div className='App-play-area'>
+              <div className='App-saved-container'>
+                <Saved saved={this.state.saved} />
+              </div>
+              <div className='App-play-container'>
                 <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
               </div>
+              <button onClick={this.takeTurn}>Bank</button>
               <p>{this.state.total}</p>
             </div>
           </div>
         </div>
       );
-    } else {
-      return (
-        <div>
-          <div className='App-nav'>
+    // } else {
+      // return (
+      //   <div>
+      //     <div className='App-nav'>
 
-          </div>
-          <div className='App-container'>
-            <div className="App">
-              <Saved saved={this.state.saved} />
-              <div className='App-play-area'>
-                <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
-              </div>
-              <button onClick={this.takeTurn}>Roll</button>
-              <p>{this.state.total}</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
+      //     </div>
+      //     <div className='App-container'>
+      //       <div className="App">
+      //         <div className='App-saved-container'>
+
+      //         </div>
+      //         <div className='App-play-container'>
+      //           <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+      //         </div>
+      //         <button onClick={this.takeTurn}>Bank</button>
+      //         <p>{this.state.total}</p>
+      //       </div>
+      //     </div>
+      //   </div>
+      // );
+    // }
+    // } else if (this.state.saved.length === 5 || (this.state.selected.indexOf(false) > this.state.inPlay.length && this.state.selected.indexOf(false) !== -1)) {
+    //   return (
+    //     <div>
+    //       <div className='App-nav'>
+
+    //       </div>
+    //       <div className='App-container'>
+    //         <div className="App">
+    //           <div className='App-saved-container'>
+    //             <Saved saved={this.state.saved} />
+    //           </div>
+    //           <div className='App-play-container'>
+    //             <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+    //           </div>
+    //           <button onClick={this.takeTurn}>Bank</button>
+    //           <p>{this.state.total}</p>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   );
+    // } else {
+    //   return (
+    //     <div>
+    //       <div className='App-nav'>
+
+    //       </div>
+    //       <div className='App-container'>
+    //         <div className="App">
+    //           <div className='App-saved-container'>
+    //             <Saved saved={this.state.saved} />
+    //           </div>
+    //           <div className='App-play-container'>
+    //             <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+    //           </div>
+    //           <button onClick={this.takeTurn}>Bank & Roll</button>
+    //           <p>{this.state.total}</p>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   );
+    // }
   }
 }
 
