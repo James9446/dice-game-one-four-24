@@ -21,8 +21,8 @@
 }
 
 .App-play-area {
-  display: flex;
-  align-items: flex-start
+  /* display: flex;
+  justify-content: space-center; */
 }
 
 .App button {

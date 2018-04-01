@@ -10,7 +10,8 @@ class App extends Component {
     this.state = {
       dicePool: null,
       inPlay: [],
-      toBeSaved: [false, false, false, false, false, false],
+      toBeSaved: [],
+      selected: [false, false, false, false, false, false],
       saved: [],
       qualified: false,
       total: null
@@ -29,20 +30,34 @@ class App extends Component {
   };
 
   takeTurn = () => {
-    // if (this.state.toBeSaved.length || !this.state.inPlay.length) {
+    if (this.state.selected.indexOf(true) > -1 || !this.state.inPlay.length) {
       let currentSaved = this.state.saved.slice(0);
       let currentToBeSaved = this.state.toBeSaved.slice(0);
+      let currentInPlay = this.state.inPlay.slice(0);
+      let currentSelected = this.state.selected.slice(0);
+      let currentDicePool = this.state.dicePool;
+      let temp = [];
+
+      currentInPlay.forEach((dice, index, collection) => {
+        if (currentSelected[index]) {
+          temp.push(dice);
+          currentDicePool--;
+          // collection.splice(index, 1)
+        }
+      })
       let roll = [];
-      for (let i = 0; i < this.state.dicePool; i++) {
+      for (let i = 0; i < currentDicePool; i++) {
         roll.push(this.diceRoll());
       }
-      // currentSaved = this.sortSaved(currentSaved.concat(currentToBeSaved));
+      currentSaved = this.sortSaved(currentSaved.concat(temp));
       this.setState({
         inPlay: roll,
         // toBeSaved: [],
+        selected: [false, false, false, false, false, false],
+        dicePool: currentDicePool,
         saved: currentSaved
       });
-    // }
+    }
   };
 
   sortSaved = ( array ) => {
@@ -78,13 +93,13 @@ class App extends Component {
 
   selectDice = (selection) => {
     console.log(selection);
-    let currentToBeSaved = this.state.toBeSaved.slice(0);
-    // currentToBeSaved.push(selection);
+    let currentSelected = this.state.selected.slice(0);
+    // currentSelected.push(selection);
 
-    let currentDiceInPlay = this.state.inPlay.slice(0);
+    // let currentDiceInPlay = this.state.inPlay.slice(0);
     // let spliced = false;
 
-    currentToBeSaved[selection[0]] = !currentToBeSaved[selection[0]];
+    currentSelected[selection[0]] = !currentSelected[selection[0]];
     
     // for (let i = 0; i < currentDiceInPlay.length; i++) {
     //   if (selection === currentDiceInPlay[i] && !spliced) {
@@ -94,33 +109,34 @@ class App extends Component {
     // }
 
     this.setState({
-      toBeSaved: currentToBeSaved,
-      inPlay: currentDiceInPlay,
-      dicePool: 6 - (this.state.saved.length)
+      selected: currentSelected
+      // toBeSaved: currentToBeSaved,
+      // inPlay: currentDiceInPlay,
+      // dicePool: 6 - (this.state.saved.length)
     });
   };
 
-  undoSelection = (selection) => {
-    let currentDiceInPlay = this.state.inPlay.slice(0);
-    // currentDiceInPlay.push(selection);
+  // undoSelection = (selection) => {
+  //   let currentDiceInPlay = this.state.inPlay.slice(0);
+  //   // currentDiceInPlay.push(selection);
 
-    let currentToBeSaved = this.state.toBeSaved.slice(0);
-    // let spliced = false;
+  //   let currentToBeSaved = this.state.toBeSaved.slice(0);
+  //   // let spliced = false;
 
-    currentToBeSaved[selection[0]] = false;
-    // for (let i = 0; i < currentToBeSaved.length; i++) {
-    //   if (selection === currentToBeSaved[i] && !spliced) {
-    //     currentToBeSaved.splice(i, 1);
-    //     spliced = true;
-    //   }
-    // }
+  //   currentToBeSaved[selection[0]] = false;
+  //   // for (let i = 0; i < currentToBeSaved.length; i++) {
+  //   //   if (selection === currentToBeSaved[i] && !spliced) {
+  //   //     currentToBeSaved.splice(i, 1);
+  //   //     spliced = true;
+  //   //   }
+  //   // }
 
-    this.setState({
-      toBeSaved: currentToBeSaved,
-      inPlay: currentDiceInPlay,
-      dicePool: 6 - (this.state.saved.length)
-    });
-  };
+  //   this.setState({
+  //     toBeSaved: currentToBeSaved,
+  //     inPlay: currentDiceInPlay,
+  //     dicePool: 6 - (this.state.saved.length)
+  //   });
+  // };
 
   render() {
     // if (this.state.toBeSaved.length + this.state.saved.length === 6) {
@@ -133,7 +149,7 @@ class App extends Component {
             <div className="App">
               <Saved saved={this.state.saved} />
               <div className='App-play-area'>
-                <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.toBeSaved} />
+                <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
                 {/* <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} /> */}
               </div>
               <button onClick={this.takeTurn}>Get final score</button>

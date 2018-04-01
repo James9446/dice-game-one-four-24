@@ -10,8 +10,8 @@
 
 .Dice:hover {
   background-color: lightblue;
-  transform: translateY(-3px);
-  transition: all 0.015s ease-in-out;  
+  /* transform: translateY(-3px); */
+  /* transition: all 0.015s ease-in-out;   */
   box-shadow: 0 8px 10px -6px rgb(220, 220, 222);
 }
 
