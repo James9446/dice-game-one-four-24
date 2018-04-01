@@ -20,9 +20,6 @@ class App extends Component {
   componentWillMount() {
     this.setState({ dicePool: 6 });
   }
-  componentDidMount() {
-    this.rollDice();
-  }
   
   diceRoll = () => {
     let randomNumber = Math.floor(Math.random() * (6)) + 1;
@@ -44,18 +41,11 @@ class App extends Component {
           currentDicePool--;
         }
       })
-      while(currentInPlay.indexOf(null) > -1) {
-        for (let i = 0; i < currentInPlay.length; i++) {
-          if (currentInPlay[i] === null) {
-            currentInPlay.splice(i, 1);
-          }
-        }
-      }
       
       currentSaved = this.sortSaved(currentSaved.concat(selections));
       this.setState({
         diceActive: false,
-        inPlay: currentInPlay,
+        inPlay: [],
         selected: [false, false, false, false, false, false],
         dicePool: currentDicePool,
         saved: currentSaved
@@ -77,6 +67,14 @@ class App extends Component {
       });
     }
   }
+
+  selectDice = (selection) => {
+    let currentSelected = this.state.selected.slice(0);
+    currentSelected[selection] = !currentSelected[selection];
+    this.setState({
+      selected: currentSelected
+    });
+  };
 
   sortSaved = ( array ) => {
     array = array.splice(0);
@@ -109,16 +107,8 @@ class App extends Component {
     return array;
   };
 
-  selectDice = (selection) => {
-    let currentSelected = this.state.selected.slice(0);
-    currentSelected[selection] = !currentSelected[selection];
-    this.setState({
-      selected: currentSelected
-    });
-  };
-
   render() {
-    if (this.state.diceActive && this.state.selected.indexOf(true) === -1) {
+    if ((this.state.diceActive && this.state.selected.indexOf(true) === -1) || this.state.saved.length === 6) {
       return (
         <div>
           <div className='App-nav'>
@@ -130,7 +120,7 @@ class App extends Component {
                 <Saved saved={this.state.saved} />
               </div>
               <div className='App-play-container'>
-                <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+                <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
               </div>
               <div className='App-btn-container'>
               </div>
@@ -150,7 +140,7 @@ class App extends Component {
                 <Saved saved={this.state.saved} />
               </div>
               <div className='App-play-container'>
-                <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+                <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
               </div>
               <div className='App-btn-container'>
                 <button className='App-btn-bank' onClick={this.bankDice}>Bank</button>
@@ -171,7 +161,7 @@ class App extends Component {
                 <Saved saved={this.state.saved} />
               </div>
               <div className='App-play-container'>
-                <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+                <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
               </div>
               <div className='App-btn-container'>
                 <button className='App-btn-roll' onClick={this.rollDice}>Roll</button>

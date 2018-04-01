@@ -16,12 +16,6 @@ class Dice extends Component {
           <Dots number={this.props.number}/>
         </div>
       );
-    } else if (!this.props.diceActive && this.props.isSelected === false) {
-      return (
-        <div className='inactive' >
-          <Dots number={this.props.number}/>
-        </div>
-      );
     } else {
       if (this.props.qualifier === true) {
         return (

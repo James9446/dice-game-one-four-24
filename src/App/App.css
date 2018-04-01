@@ -19,7 +19,7 @@
 }
 
 .App-play-container {
-  margin-top: 2em;
+  margin-top: 3.5em;
   display: flex;
   justify-content: center;
 }
@@ -49,6 +49,10 @@
   color: #4caf4f;
   background-color: lightgreen;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); 
+}
+
+.App button:focus {
+  outline: none;
 }
 
 /* .App-btn-roll {
