@@ -18,3 +18,14 @@
 .qualifier {
   background-color: rgb(43, 255, 0);
 }
+
+.selected {
+  height: 55px;
+  width: 55px;
+  border: 1px solid black;
+  border-radius: 0.75em;
+  display: inline-block;
+  margin: 1em;
+  transition: all 0.015s ease-in-out;
+  background-color: red;
+}

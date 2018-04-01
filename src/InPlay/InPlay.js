@@ -6,7 +6,11 @@ const InPlay = (props) => (
   <div className='InPlay'>
     {/* <h1> Select Dice To Keep </h1> */}
     {props.inPlay.map((dice, index) => {
-      return <Dice number={dice} key={index} select={props.select.bind(null, dice)} />
+      if (props.selected[index] === true) {
+        return <Dice isSelected={true} number={dice} key={index} select={props.select.bind(null, [index, dice])} />
+      } else {
+        return <Dice isSelected={false} number={dice} key={index} select={props.select.bind(null, [index, dice])} />
+      }
     })}
   </div>
 );
