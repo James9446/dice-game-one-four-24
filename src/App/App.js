@@ -8,7 +8,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dicePool: null,
+      dicePool: 6,
+      diceActive: false,
       inPlay: [],
       selected: [false, false, false, false, false, false],
       saved: [],
@@ -20,7 +21,7 @@ class App extends Component {
     this.setState({ dicePool: 6 });
   }
   componentDidMount() {
-    this.takeTurn();
+    this.rollDice();
   }
   
   diceRoll = () => {
@@ -28,33 +29,54 @@ class App extends Component {
 		return randomNumber;
   };
 
-  takeTurn = () => {
-    if (this.state.selected.indexOf(true) > -1 || !this.state.inPlay.length) {
+  bankDice = () => {
+    if (this.state.selected.indexOf(true) > -1 && this.state.diceActive) {
       let currentSaved = this.state.saved.slice(0);
       let currentInPlay = this.state.inPlay.slice(0);
       let currentSelected = this.state.selected.slice(0);
       let currentDicePool = this.state.dicePool;
-      let temp = [];
+      let selections = [];
 
       currentInPlay.forEach((dice, index, collection) => {
         if (currentSelected[index]) {
-          temp.push(dice);
+          selections.push(dice);
+          collection[index] = null;
           currentDicePool--;
         }
       })
-      let roll = [];
-      for (let i = 0; i < currentDicePool; i++) {
-        roll.push(this.diceRoll());
+      while(currentInPlay.indexOf(null) > -1) {
+        for (let i = 0; i < currentInPlay.length; i++) {
+          if (currentInPlay[i] === null) {
+            currentInPlay.splice(i, 1);
+          }
+        }
       }
-      currentSaved = this.sortSaved(currentSaved.concat(temp));
+      
+      currentSaved = this.sortSaved(currentSaved.concat(selections));
       this.setState({
-        inPlay: roll,
+        diceActive: false,
+        inPlay: currentInPlay,
         selected: [false, false, false, false, false, false],
         dicePool: currentDicePool,
         saved: currentSaved
       });
     }
   };
+
+  rollDice = () => {
+    if (!this.state.diceActive) {
+      let currentInPlay = this.state.inPlay.slice(0);
+      let currentDicePool = this.state.dicePool;
+      let roll = [];
+      for (let i = 0; i < currentDicePool; i++) {
+        roll.push(this.diceRoll());
+      }
+      this.setState({
+        diceActive: true,
+        inPlay: roll,
+      });
+    }
+  }
 
   sortSaved = ( array ) => {
     array = array.splice(0);
@@ -96,12 +118,11 @@ class App extends Component {
   };
 
   render() {
-    // if (this.state.saved.length === 6 || this.state.selected.indexOf(true) === -1) {
-    //   if (this.state.saved.length) {
+    if (this.state.diceActive && this.state.selected.indexOf(true) === -1) {
       return (
         <div>
           <div className='App-nav'>
-
+            {/* <p>{this.state.total}</p> */}
           </div>
           <div className='App-container'>
             <div className="App">
@@ -109,76 +130,57 @@ class App extends Component {
                 <Saved saved={this.state.saved} />
               </div>
               <div className='App-play-container'>
-                <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+                <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
               </div>
-              <button onClick={this.takeTurn}>Bank</button>
-              <p>{this.state.total}</p>
+              <div className='App-btn-container'>
+              </div>
             </div>
           </div>
         </div>
       );
-    // } else {
-      // return (
-      //   <div>
-      //     <div className='App-nav'>
-
-      //     </div>
-      //     <div className='App-container'>
-      //       <div className="App">
-      //         <div className='App-saved-container'>
-
-      //         </div>
-      //         <div className='App-play-container'>
-      //           <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
-      //         </div>
-      //         <button onClick={this.takeTurn}>Bank</button>
-      //         <p>{this.state.total}</p>
-      //       </div>
-      //     </div>
-      //   </div>
-      // );
-    // }
-    // } else if (this.state.saved.length === 5 || (this.state.selected.indexOf(false) > this.state.inPlay.length && this.state.selected.indexOf(false) !== -1)) {
-    //   return (
-    //     <div>
-    //       <div className='App-nav'>
-
-    //       </div>
-    //       <div className='App-container'>
-    //         <div className="App">
-    //           <div className='App-saved-container'>
-    //             <Saved saved={this.state.saved} />
-    //           </div>
-    //           <div className='App-play-container'>
-    //             <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
-    //           </div>
-    //           <button onClick={this.takeTurn}>Bank</button>
-    //           <p>{this.state.total}</p>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   );
-    // } else {
-    //   return (
-    //     <div>
-    //       <div className='App-nav'>
-
-    //       </div>
-    //       <div className='App-container'>
-    //         <div className="App">
-    //           <div className='App-saved-container'>
-    //             <Saved saved={this.state.saved} />
-    //           </div>
-    //           <div className='App-play-container'>
-    //             <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
-    //           </div>
-    //           <button onClick={this.takeTurn}>Bank & Roll</button>
-    //           <p>{this.state.total}</p>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   );
-    // }
+    } else if (this.state.diceActive) {
+      return (
+        <div>
+          <div className='App-nav'>
+            {/* <p>{this.state.total}</p> */}
+          </div>
+          <div className='App-container'>
+            <div className="App">
+              <div className='App-saved-container'>
+                <Saved saved={this.state.saved} />
+              </div>
+              <div className='App-play-container'>
+                <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+              </div>
+              <div className='App-btn-container'>
+                <button className='App-btn-bank' onClick={this.bankDice}>Bank</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <div className='App-nav'>
+            {/* <p>{this.state.total}</p> */}
+          </div>
+          <div className='App-container'>
+            <div className="App">
+              <div className='App-saved-container'>
+                <Saved saved={this.state.saved} />
+              </div>
+              <div className='App-play-container'>
+                <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
+              </div>
+              <div className='App-btn-container'>
+                <button className='App-btn-roll' onClick={this.rollDice}>Roll</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
 }
 

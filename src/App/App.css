@@ -12,12 +12,10 @@
 }
 
 .App {
-  /* text-align: center; */
   display: flex;
   flex-direction: column;
   background-color: #fff;
   height: 100em;
-  /* width: 75%; */
 }
 
 .App-play-container {
@@ -32,15 +30,42 @@
   justify-content: center;
 }
 
+.App-btn-container {
+  height: 10em;
+  margin-top: 2em;
+  display: flex;
+  justify-content: center;
+}
+
 .App button {
   color: #fff;
-  background-color: green;
+  background-color: #4caf4f;
   height: 5em;
   width: 5em;
   border-radius: 1em;
 }
 
 .App button:hover {
-  background-color: darkgreen
+  color: #4caf4f;
+  background-color: lightgreen;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); 
 }
 
+/* .App-btn-roll {
+  background-color: #4caf4f;
+}
+
+.App-btn-bank {
+  background-color: #4caf4f;
+} */
+/* .App-btn-inctive {
+  background-color: grey;
+} */
+
+/* .App-btn-roll:hover {
+  background-color: blue;
+}
+
+.App-btn-bank:hover {
+  background-color: purple;
+} */

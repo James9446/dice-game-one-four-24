@@ -1,8 +1,8 @@
 .Saved {
   margin-top: 2em;
   border: 1px solid purple;
+  border-radius: 2em;
   padding: 0.984em 0.984em 0 0.984em;
-  /* height: 7em; */
   min-width: 6em;
   display: flex; 
 }
