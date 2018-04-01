@@ -4,7 +4,6 @@ import './Saved.css';
 
 const Saved = (props) => (
   <div className='Saved'>
-    {/* <h1> Dice saved </h1> */}
     {props.saved.map((dice, index) => {
       if ((dice === 1 || dice === 4) && (index === 0 || index === 1)) {
         return <Dice number={dice} key={index} qualifier={true} />
