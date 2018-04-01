@@ -5,14 +5,14 @@
   border-radius: 0.75em;
   display: inline-block;
   margin: 1em;
-  /* display: flex; */
+  transition: all 0.015s ease-in-out;
 }
 
 .Dice:hover {
   background-color: lightblue;
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   transition: all 0.015s ease-in-out;  
-  box-shadow: 0 8px 10px -6px #DCDEDD;
+  box-shadow: 0 8px 10px -6px rgb(220, 220, 222);
 }
 
 .qualifier {

@@ -1,10 +1,23 @@
 /* * {
   border: dashed 1px grey;
 } */
+.App-nav {
+  height: 7em;
+  background-color: #5f5f5f;
+}
+
+.App-container {
+  background-color: #f1f1f1;
+  padding: 0 15em;
+}
+
 .App {
   /* text-align: center; */
   display: flex;
   flex-direction: column;
+  background-color: #fff;
+  height: 100em;
+  /* width: 75%; */
 }
 
 .App button {

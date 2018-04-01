@@ -12,7 +12,8 @@ class App extends Component {
       inPlay: [],
       toBeSaved: [],
       saved: [],
-      qualified: false
+      qualified: false,
+      total: null
     };
   }
   componentWillMount() {
@@ -57,6 +58,10 @@ class App extends Component {
       hasFour = true;
       array.splice(array.indexOf(4), 1)
     }
+    let total = 0;
+    for (let i = 0; i < array.length; i++) {
+      total += array[i];
+    }
     array.sort((a, b) => b - a);
     if (hasFour) {
       array.unshift(4);
@@ -67,6 +72,7 @@ class App extends Component {
     if (hasOne && hasFour && !this.state.qualified) {
       this.setState({ qualified: true });
     }
+    this.setState({ total: total })
     return array;
   };
 
@@ -115,28 +121,52 @@ class App extends Component {
   render() {
     if (this.state.toBeSaved.length + this.state.saved.length === 6) {
       return (
-        <div className="App">
-          <Saved saved={this.state.saved} />
-          <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
-          <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
-          <button onClick={this.takeTurn}>Get final score</button>
+        <div>
+          <div className='App-nav'>
+
+          </div>
+          <div className='App-container'>
+            <div className="App">
+              <Saved saved={this.state.saved} />
+              <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
+              <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
+              <button onClick={this.takeTurn}>Get final score</button>
+              <p>{this.state.total}</p>
+            </div>
+          </div>
         </div>
       );
     } else if (!this.state.toBeSaved.length) {
       return (
-        <div className="App">
-        <Saved saved={this.state.saved} />
-          <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
-          <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
+        <div>
+          <div className='App-nav'>
+
+          </div>
+          <div className='App-container'>
+            <div className="App">
+              <Saved saved={this.state.saved} />
+              <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
+              <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
+              <p>{this.state.total}</p>
+            </div>
+          </div>
         </div>
       );
     } else {
       return (
-        <div className="App">
-        <Saved saved={this.state.saved} />
-          <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
-          <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
-          <button onClick={this.takeTurn}>Roll</button>
+        <div>
+          <div className='App-nav'>
+
+          </div>
+          <div className='App-container'>
+            <div className="App">
+              <Saved saved={this.state.saved} />
+              <ToBeSaved undo={this.undoSelection.bind(this)} toBeSaved={this.state.toBeSaved} />
+              <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} />
+              <button onClick={this.takeTurn}>Roll</button>
+              <p>{this.state.total}</p>
+            </div>
+          </div>
         </div>
       );
     }
