@@ -133,9 +133,6 @@ class App extends Component {
                 <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
               </div>
               <div className='App-btn-container'>
-                {/* <button className='App-btn-inactive' onClick={this.rollDice}>Roll</button> */}
-                {/* <button className='App-btn-active' onClick={this.bankDice}>Bank</button> */}
-                
               </div>
             </div>
           </div>
@@ -156,7 +153,6 @@ class App extends Component {
                 <InPlay diceActive={!this.state.diceActive} select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
               </div>
               <div className='App-btn-container'>
-                {/* <button className='App-btn-inactive' onClick={this.rollDice}>Roll</button> */}
                 <button className='App-btn-bank' onClick={this.bankDice}>Bank</button>
               </div>
             </div>
@@ -179,8 +175,6 @@ class App extends Component {
               </div>
               <div className='App-btn-container'>
                 <button className='App-btn-roll' onClick={this.rollDice}>Roll</button>
-                {/* <button className='App-btn-inactive' onClick={this.bankDice}>Bank</button> */}
-                
               </div>
             </div>
           </div>

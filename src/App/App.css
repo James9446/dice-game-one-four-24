@@ -12,12 +12,10 @@
 }
 
 .App {
-  /* text-align: center; */
   display: flex;
   flex-direction: column;
   background-color: #fff;
   height: 100em;
-  /* width: 75%; */
 }
 
 .App-play-container {

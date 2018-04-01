@@ -9,11 +9,7 @@
 }
 
 .Dice:hover {
-  /* background-color: lightblue; */
-  /* transform: translateY(-3px); */
-  /* transition: all 0.015s ease-in-out;   */
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  /* box-shadow: 0 8px 10px -6px rgb(220, 220, 222); */
 }
 
 .qualifier {
@@ -23,7 +19,6 @@
 .selected {
   height: 55px;
   width: 55px;
-  /* border: 1px solid black; */
   border-radius: 0.75em;
   display: inline-block;
   margin: 1em;
