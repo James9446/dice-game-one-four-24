@@ -10,6 +10,9 @@
 
 .Dice:hover {
   background-color: lightblue;
+  transform: translateY(-5px);
+  transition: all 0.015s ease-in-out;  
+  box-shadow: 0 8px 10px -6px #DCDEDD;
 }
 
 .qualifier {
