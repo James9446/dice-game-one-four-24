@@ -4,6 +4,25 @@
 .App-nav {
   height: 7em;
   background-color: #5f5f5f;
+  display: flex;
+  justify-content: center;
+}
+
+.App-potential-score {
+  font-size: 2em;
+  color: #4caf4f;
+  /* border: 1px solid purple; */
+  border-radius: 0.75em;
+  padding: 0.2em 1em 1em 1em;
+  background-color: #fff;
+}
+
+.App-actual-score {
+  font-size: 2em;
+  color: #4caf4f;
+  border-radius: 2em;
+  padding: 0.2em 1em 1em 1em;
+  background-color: #fff;
 }
 
 .App-container {
