@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Dots from '../Dots/Dots';
 import './Dice.css';
 
 class Dice extends Component {
@@ -6,26 +7,26 @@ class Dice extends Component {
     if (this.props.select) {
       return (
           <div className='Dice' onClick={this.props.select} >
-            <p> {this.props.number} </p>
+            <Dots number={this.props.number}/>
           </div>
       );
     } else if (this.props.undo) {
       return (
           <div className='Dice' onClick={this.props.undo}>
-            <p> {this.props.number} </p>
+            <Dots number={this.props.number}/>
           </div>
       );
     } else {
       if (this.props.qualifier === true) {
         return (
           <div className='Dice qualifier'>
-            <p> {this.props.number} </p>
+            <Dots number={this.props.number}/>
           </div>
         );
       } else {
         return (
           <div className='Dice'>
-            <p> {this.props.number} </p>
+            <Dots number={this.props.number}/>
           </div>
         );
       }

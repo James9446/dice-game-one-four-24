@@ -1,0 +1,39 @@
+
+.row1 {
+  display: flex;
+  justify-content: space-around;
+  margin: 0.25em;
+}
+.row2 {
+  display: flex;
+  justify-content: space-around;
+  margin: 0.25em
+}
+.row3 {
+  display: flex;
+  justify-content: space-around;
+  margin: 0.25em;
+  /* margin-bottom: 0.3em; */
+}
+
+.dot {
+  height: 0.75em;
+  width: 0.75em;
+  border-radius: 2em;
+  background-color: #000; 
+}
+
+.blank {
+  height: 0.75em;
+  width: 0.75em;
+  border-radius: 2em;
+  visibility: hidden; 
+}
+
+.pad {
+  margin-top: 0.75em;
+}
+
+.pad-low {
+  margin-top: 0.5em;
+}
