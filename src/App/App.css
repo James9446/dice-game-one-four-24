@@ -1,6 +1,7 @@
-/* * {
-  border: dashed 1px grey;
-} */
+* {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
 .App-nav {
   height: 7em;
   background-color: #5f5f5f;
@@ -11,7 +12,6 @@
 .App-potential-score {
   font-size: 2em;
   color: #4caf4f;
-  /* border: 1px solid purple; */
   border-radius: 0.75em;
   padding: 0.2em 1em 1em 1em;
   background-color: #fff;
@@ -28,6 +28,23 @@
 .App-container {
   background-color: #f1f1f1;
   padding: 0 15em;
+  /* min-width: 650px; */
+}
+
+@media (max-width: 769px) { 
+  .App-container {
+    background-color: #f1f1f1;
+    padding: 0;
+  }
+}
+
+@media (max-width: 415px) {
+  .App-btn-replay {
+    margin-top: 1em;
+  }
+  .App-nav p {
+    font-size: 1.9em;
+  }
 }
 
 .App {
@@ -38,7 +55,7 @@
 }
 
 .App-play-container {
-  margin-top: 3.5em;
+  margin-top: 4em;
   display: flex;
   justify-content: center;
 }
@@ -51,7 +68,7 @@
 
 .App-btn-container {
   height: 10em;
-  margin-top: 2em;
+  margin-top: 4em;
   display: flex;
   justify-content: center;
 }
@@ -59,11 +76,26 @@
 .App button {
   color: #fff;
   background-color: #4caf4f;
-  height: 5em;
-  width: 5em;
-  border-radius: 1em;
+  font-size: 3em;
+  border-radius: 0.6em;
 }
 
+.App-btn-roll {
+  height: 2.8em;
+  width: 2.8em;
+  border: none;
+}
+
+.App-btn-bank {
+  height: 2.8em;
+  width: 2.8em;
+  border: none;
+}
+
+.App-btn-replay {
+  height: 2.8em;
+  width: 2.8em;
+}
 .App button:hover {
   color: #4caf4f;
   background-color: lightgreen;
@@ -74,21 +106,3 @@
   outline: none;
 }
 
-/* .App-btn-roll {
-  background-color: #4caf4f;
-}
-
-.App-btn-bank {
-  background-color: #4caf4f;
-} */
-/* .App-btn-inctive {
-  background-color: grey;
-} */
-
-/* .App-btn-roll:hover {
-  background-color: blue;
-}
-
-.App-btn-bank:hover {
-  background-color: purple;
-} */

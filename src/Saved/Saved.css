@@ -6,3 +6,22 @@
   min-width: 6em;
   display: flex; 
 }
+
+@media (max-width: 769px) { 
+  .Saved {
+    max-width: 30em;
+  }
+}
+
+@media (max-width: 415px) { 
+  .Saved {
+    max-width: 15em;
+    min-height: 5em;
+    height: max-content;
+    flex-wrap: wrap;
+    padding: 0 1em 0 2em;
+  }
+  .selected {
+    margin: 0.5em
+  }
+}
