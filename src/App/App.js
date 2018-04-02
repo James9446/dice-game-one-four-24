@@ -75,6 +75,18 @@ class App extends Component {
     });
   };
 
+  replay = () => {
+    this.setState({
+      dicePool: 6,
+      diceActive: false,
+      inPlay: [],
+      selected: [false, false, false, false, false, false],
+      saved: [],
+      qualified: false,
+      total: null
+    });
+  }
+
   sortSaved = ( array ) => {
     array = array.splice(0);
     let hasOne = false;
@@ -108,7 +120,7 @@ class App extends Component {
 
   render() {
     if (!this.state.qualified) {
-      if ((this.state.diceActive && this.state.selected.indexOf(true) === -1) || this.state.saved.length === 6) {
+      if (this.state.diceActive && this.state.selected.indexOf(true) === -1) {
         return (
           <div>
             <div className='App-nav'>
@@ -123,6 +135,24 @@ class App extends Component {
                   <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
                 </div>
                 <div className='App-btn-container'>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      } else if (this.state.saved.length === 6) {
+        return (
+          <div>
+            <div className='App-nav'>
+              <p className='App-potential-score'>You failed to Qualify</p>
+            </div>
+            <div className='App-container'>
+              <div className="App">
+                <div className='App-saved-container'>
+                  <Saved saved={this.state.saved} />
+                </div>
+                <div className='App-btn-container'>
+                  <button className='App-btn-replay' onClick={this.replay}>Again</button>
                 </div>
               </div>
             </div>
@@ -160,9 +190,6 @@ class App extends Component {
                 <div className='App-saved-container'>
                   <Saved saved={this.state.saved} />
                 </div>
-                <div className='App-play-container'>
-                  <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
-                </div>
                 <div className='App-btn-container'>
                   <button className='App-btn-roll' onClick={this.rollDice}>Roll</button>
                 </div>
@@ -172,7 +199,7 @@ class App extends Component {
         );
       }
     } else {
-      if ((this.state.diceActive && this.state.selected.indexOf(true) === -1) || this.state.saved.length === 6) {
+      if (this.state.diceActive && this.state.selected.indexOf(true) === -1) {
         return (
           <div>
             <div className='App-nav'>
@@ -187,6 +214,24 @@ class App extends Component {
                   <InPlay select={this.selectDice.bind(this)} inPlay={this.state.inPlay} selected={this.state.selected} />
                 </div>
                 <div className='App-btn-container'>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      } else if (this.state.saved.length === 6) {
+        return (
+          <div>
+            <div className='App-nav'>
+              <p className='App-actual-score'> Final Score {this.state.total}!</p>
+            </div>
+            <div className='App-container'>
+              <div className="App">
+                <div className='App-saved-container'>
+                  <Saved saved={this.state.saved} />
+                </div>
+                <div className='App-play-container'>
+                  <button className='App-btn-replay' onClick={this.replay}>Again</button>
                 </div>
               </div>
             </div>
